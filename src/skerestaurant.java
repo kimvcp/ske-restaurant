@@ -1,70 +1,80 @@
 
 
-import java.awt.Choice;
-import java.nio.charset.MalformedInputException;
 import java.util.Scanner;
 
-public class skerestaurant {
-	static Scanner sc = new Scanner(System.in);
-	static int readInt(String text) {
-		System.out.print(text);
-		int c = sc.nextInt();
+public class MenuSystem {
+	static Scanner console = new Scanner(System.in);
+	static int[] price = { 250, 150, 45 };
+	static String[] order = { "Pizza", "Chickens", "Coke" };
+	static int[] quantity = { 0, 0, 0 };
+
+	public static int getIntReply(String prompt) {
+		System.out.print(prompt);
+		int c = console.nextInt();
 		return c;
 	}
-	static void menu(int pizza , int chickens,int coke) {
+
+	static void menu() {
+		System.out.println("-------------- Welcome to SKE Restautant --------------");
+		for (int i = 0; i < order.length; i++) {
+			System.out.printf("%d.) %s\t\t%5d Baht.\n", i + 1, order[i], price[i]);
+		}
+		System.out.printf("%d.) Total\n", order.length + 1);
+		System.out.printf("%d.) Exit", order.length + 2);
+		System.out.println("");
+	}
+
+	static int totalPrice() {
+		int sumPrice = 0;
+		for (int i = 0; i < order.length; i++) {
+			sumPrice += quantity[i] * price[i];
+		}
+		return sumPrice;
+	}
+
+	public static void printMenu() {
 		System.out.print(" _______________________________________________________\n");
 		System.out.print("|_______ Menu __________|_____ Qty _____|_____ Price ___|\n");
-		if(pizza>0)System.out.printf("|\tPizza\t\t|\t%d\t|\t%d\t|\n",pizza,pizza*250);
-		if(chickens>0)System.out.printf("|\tChickens\t|\t%d \t|\t%d\t|\n",chickens,chickens*120);
-		if(coke>0)System.out.printf("|\tCoke\t\t|\t%d\t|\t%d\t|\n",coke,coke*45);
+		for (int i = 0; i < order.length; i++) {
+			if (quantity[i] * price[i] > 0)
+				System.out.printf("|\t%-8s\t|\t%d\t|\t%d\t|\n", order[i], quantity[i], quantity[i] * price[i]);
+		}
 		System.out.print("|_______________________|_______________|_______________|\n");
-		System.out.printf("|\tTotal\t\t\t\t\t%d\t|\n",(pizza*250)+(chickens*120)+(coke*45));
+		System.out.printf("|\tTotal\t\t\t\t\t%d\t|\n", totalPrice());
 		System.out.print("|_______________________________________________________|\n");
 	}
+
 	public static void main(String[] args) {
-		
-		System.out.println("-------------- Welcome to SKE Restautant --------------");
-		System.out.printf("1.) Pizza\t\t%5d Baht.\n", 250);
-		System.out.printf("2.) Chickens\t\t%5d Baht.\n", 120);
-		System.out.printf("3.) Coke\t\t%5d Baht.\n", 45);
-		System.out.println("4.) Total");
-		System.out.println("5.) Exit");
-		System.out.println("");
-		int quan=0;
-		int sumpizza = 0;
-		int sumchickens =0;
-		int sumcoke = 0;
-		
+
+		menu();
+		int quan = 0;
+
 		while (true) {
-			int choice = readInt("Enter your Choice: ");
+			int choice = getIntReply("Enter your Choice: ");
 			if (choice == 5) {
 				break;
 			}
-				
-			
-			else if(choice == 1 || choice == 2 || choice == 3){
-			quan = readInt("Enter Quantity: ");
-			System.out.println("");
-			if(choice == 1) {
-				sumpizza += quan;	
+
+			else if (choice == 1 || choice == 2 || choice == 3) {
+				quan = getIntReply("Enter Quantity: ");
+				System.out.println("");
+				if (choice == 1) {
+					quantity[0] += quan;
+				} else if (choice == 2) {
+					quantity[1] += quan;
+				} else if (choice == 3) {
+					quantity[2] += quan;
+				}
+
+			} else if (choice == 4) {
+				printMenu();
+				System.out.println("");
 			}
-			else if(choice == 2) {
-				sumchickens += quan;	
-			}
-			else if(choice == 3) {
-				sumcoke += quan;	
-			}
-			
-		}else if(choice== 4) {
-			menu(sumpizza, sumchickens, sumcoke);
-			System.out.println("");
+
 		}
-		
+		System.out.println("<<<<<< THANK YOU >>>>>>");
+		System.out.println("Facebook Page : SkeSkeRestaurant");
+		System.out.println("Tel : 02-021-0200");
 
-	}System.out.println("<<<<<< THANK YOU >>>>>>");
-	System.out.println("Facebook Page : SkeSkeRestaurant");
-	System.out.println("Tel : 02-021-0200");
-
-	
-}
+	}
 }
