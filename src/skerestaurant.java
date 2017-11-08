@@ -2,11 +2,21 @@
 
 import java.util.Scanner;
 
-public class MenuSystem {
+public class OrderTaker {
 	static Scanner console = new Scanner(System.in);
-	static int[] price = { 250, 150, 45 };
-	static String[] order = { "Pizza", "Chickens", "Coke" };
+	static RestaurantManager manage = new RestaurantManager();
+	static double[] price;
+	static String[] order;
 	static int[] quantity = { 0, 0, 0 };
+
+	public static void setPrice() {
+		price = manage.getPrices();
+	}
+
+	public static void setOrder() {
+		order = manage.getMenuItems();
+	}
+
 
 	public static int getIntReply(String prompt) {
 		System.out.print(prompt);
@@ -15,12 +25,18 @@ public class MenuSystem {
 	}
 
 	static void menu() {
-		System.out.println("-------------- Welcome to SKE Restautant --------------");
+		System.out.println("____________________________________________________________ ");
+		System.out.println("| ___  _ __ ___ ___ ___ ___ ___ ___ _  _ ___ ___ ___   ___ | ");
+		System.out.println("| |__  |/_  |__ |_| |__ |__  |  |_| |  | |_| |_| | | |  |  | ");
+		System.out.println("| ___| |  |_|__ ||  |__  __| |  | | |__| ||  | | | |_|  |  | ");
+		System.out.println("|__________________________________________________________| ");
+		System.out.println();
+		System.out.println("  Menu\t\t\t\t\t  Price");
 		for (int i = 0; i < order.length; i++) {
-			System.out.printf("%d.) %s\t\t%5d Baht.\n", i + 1, order[i], price[i]);
+			System.out.printf(" %d.) %s\t\t\t\t%.2f\t%s\n", i + 1, order[i], price[i],"Baht.");
 		}
-		System.out.printf("%d.) Total\n", order.length + 1);
-		System.out.printf("%d.) Exit", order.length + 2);
+		System.out.printf(" %d.) Total\n", order.length + 1);
+		System.out.printf(" %d.) Exit", order.length + 2);
 		System.out.println("");
 	}
 
@@ -37,21 +53,25 @@ public class MenuSystem {
 		System.out.print("|_______ Menu __________|_____ Qty _____|_____ Price ___|\n");
 		for (int i = 0; i < order.length; i++) {
 			if (quantity[i] * price[i] > 0)
-				System.out.printf("|\t%-8s\t|\t%d\t|\t%d\t|\n", order[i], quantity[i], quantity[i] * price[i]);
+				System.out.printf("|%8s%-15s|%10d%-5s|%11.2f%-4s|\n", "", order[i], quantity[i], "",
+						quantity[i] * price[i], "");
 		}
 		System.out.print("|_______________________|_______________|_______________|\n");
-		System.out.printf("|\tTotal\t\t\t\t\t%d\t|\n", totalPrice());
+		System.out.printf("|%8s%-33s%10d%-4s|\n", "", "total", totalPrice(), "");
 		System.out.print("|_______________________________________________________|\n");
 	}
 
 	public static void main(String[] args) {
-
+		
+		manage.setMenu("data/menu.txt");
+		setOrder();
+		setPrice();
 		menu();
 		int quan = 0;
 
 		while (true) {
 			int choice = getIntReply("Enter your Choice: ");
-			if (choice == 5) {
+			if (choice == 7) {
 				break;
 			}
 
@@ -66,7 +86,7 @@ public class MenuSystem {
 					quantity[2] += quan;
 				}
 
-			} else if (choice == 4) {
+			} else if (choice == 6) {
 				printMenu();
 				System.out.println("");
 			}
@@ -78,3 +98,4 @@ public class MenuSystem {
 
 	}
 }
+
