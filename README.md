@@ -1,5 +1,5 @@
 # SKE Restaurant
-by foo
+by Vichaphol Thamsuthikul
 
 This is a command line ordering system for a restaurant.
 
