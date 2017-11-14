@@ -7,7 +7,7 @@ public class OrderTaker {
 	static RestaurantManager manage = new RestaurantManager();
 	static double[] prices;
 	static String[] menuItems;
-	static double[] quantity;
+	static int[] quantity;
 
 	public static void setPrice() {
 		prices = manage.getPrices();
@@ -15,6 +15,7 @@ public class OrderTaker {
 
 	public static void setOrder() {
 		menuItems = manage.getMenuItems();
+		quantity = new int[menuItems.length];
 	}
 
 	public static int getIntReply(String prompt) {
@@ -58,13 +59,13 @@ public class OrderTaker {
 
 	public static void printTotalMenu() {
 		System.out.print(" _______________________________________________________\n");
-		System.out.print("|_______ Menu __________|_____ Qty _____|_____ Price ___|\n");
+		System.out.print("|_______ Menu __________|_____ Qty _____|____ Price ____|\n");
 		for (int i = 0; i < menuItems.length; i++) {
 
-			System.out.println(menuItems.length + " " + quantity.length + " " + prices.length);
-			if (quantity[i] > 0)
-				System.out.printf("|%8s%-15s|%10.0f%-5s|%11.2f%-4s|\n", "", menuItems[i], quantity[i], "",
+			if (quantity[i] > 0) {
+				System.out.printf("|%8s%-15s|%9d%-6s|%11.2f%-4s|\n", "", menuItems[i], quantity[i], "",
 						quantity[i] * prices[i], "");
+			}
 		}
 		System.out.print("|_______________________|_______________|_______________|\n");
 		System.out.printf("|%8s%-33s%10d%-4s|\n", "", "total", totalPrice(), "");
@@ -82,9 +83,11 @@ public class OrderTaker {
 				cancelMenu();
 			else if (choice.equals("c"))
 				break;
-			int choicenum = Integer.parseInt(choice);
-			for (int i = 0; i < menuItems.length; i++) {
-				
+			if (choice.charAt(0) > 48 && choice.charAt(0) < 57) {
+				int choicenum = Integer.parseInt(choice);
+				int quan = getIntReply("Enter you Quantity: ");
+				System.out.println();
+				quantity[choicenum - 1] += quan;
 			}
 
 		}
@@ -110,30 +113,7 @@ public class OrderTaker {
 		setOrder();
 		setPrice();
 		menu();
-		// int quan = 0;
-		// while (true) {
-		// int choice = getIntReply("Enter your Choice: ");
-		// if (choice == 7) {
-		// break;
-		// }
-
-		// else if (choice == 1 || choice == 2 || choice == 3) {
-		// quan = getIntReply("Enter Quantity: ");
-		// System.out.println("");
-		// if (choice == 1) {
-		// quantity[0] += quan;
-		// } else if (choice == 2) {
-		// quantity[1] += quan;
-		// } else if (choice == 3) {
-		// quantity[2] += quan;
-		// }
-		//
-		// } else if (choice == 6) {
-		// printTotalMenu();
-		// System.out.println("");
-		//
-		// }
-		
+		command();
 
 	}
 }
