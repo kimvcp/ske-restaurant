@@ -1,6 +1,9 @@
 
+
 import java.awt.Menu;
 import java.util.Scanner;
+
+import javax.sound.midi.Soundbank;
 
 public class OrderTaker {
 	static Scanner console = new Scanner(System.in);
@@ -46,7 +49,6 @@ public class OrderTaker {
 		System.out.println(" [p] Print order");
 		System.out.println(" [x] Cancel order");
 		System.out.println(" [c] Checkout");
-		System.out.println("");
 	}
 
 	static int totalPrice() {
@@ -74,6 +76,7 @@ public class OrderTaker {
 
 	public static void command() {
 		while (true) {
+			System.out.println();
 			String choice = getStringReply("Enter your Choice: ");
 			if (choice.equals("p"))
 				printTotalMenu();
@@ -86,7 +89,6 @@ public class OrderTaker {
 			if (choice.charAt(0) > 48 && choice.charAt(0) < 57) {
 				int choicenum = Integer.parseInt(choice);
 				int quan = getIntReply("Enter you Quantity: ");
-				System.out.println();
 				quantity[choicenum - 1] += quan;
 			}
 
@@ -99,12 +101,13 @@ public class OrderTaker {
 	public static void editMenu() {
 		int editnum = getIntReply("The number you want to edit: ");
 		int quantityMenu = getIntReply("You want to change the quantity to: ");
+		quantity[editnum-1] = quantityMenu; 
 
 	}
 
 	public static void cancelMenu() {
 		int cancelnum = getIntReply("The number you want to cancel: ");
-
+		quantity[cancelnum-1] = 0;
 	}
 
 	public static void main(String[] args) {
@@ -117,3 +120,4 @@ public class OrderTaker {
 
 	}
 }
+
