@@ -1,35 +1,37 @@
+import java.awt.MenuItem;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This Restaurant Manager can record orders from a file text. It provides the
+ * ArrayList of all the Food and also get Menu Items and Prices method for the
+ * main class.
+ * 
+ * @author Vichaphol Thamsuthikul
+ */
+
 public class RestaurantManager {
+	private String[] menuItems;
+	private double[] Prices;
 
-	public String[] getMenuItems() {
-		String[] name = new String[foodArrayList.size()];
-		for (int i = 0; i < foodArrayList.size(); i++) {
-			name[i] = foodArrayList.get(i).getNameF();
-		}
-		return name;
-	}
-
-	public double[] getPrices() {
-		double[] price = new double[foodArrayList.size()];
-		for (int i = 0; i < foodArrayList.size(); i++) {
-			price[i] = foodArrayList.get(i).getPriceF();
-
-		}
-		return price;
-	}
+	public List<Food> foodArrayList = new ArrayList<Food>();
 
 	public void recordOrder(int orderNumber, int[] order, double total) {
 
 	}
 
-	public List<Food> foodArrayList = new ArrayList<Food>();
+	public String[] getMenuItems() {
+		return menuItems;
+	}
 
-	public void setMenu(String filename) {
+	public double[] getPrices() {
+		return Prices;
+	}
+
+	public void init(String filename) {
 		String fileMenu = filename;
 		ClassLoader loader = RestaurantManager.class.getClassLoader();
 		InputStream in = loader.getResourceAsStream(fileMenu);
@@ -41,6 +43,12 @@ public class RestaurantManager {
 		while (reader.hasNextLine()) {
 			String[] foodS = reader.nextLine().split(";");
 			foodArrayList.add(new Food(foodS[0], Double.parseDouble(foodS[1])));
+		}
+		menuItems = new String[foodArrayList.size()];
+		Prices = new double[foodArrayList.size()];
+		for (int i = 0; i < foodArrayList.size(); i++) {
+			menuItems[i] = foodArrayList.get(i).getName();
+			Prices[i] = foodArrayList.get(i).getUnitPrice();
 		}
 	}
 }

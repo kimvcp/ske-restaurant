@@ -1,26 +1,32 @@
+/**
+ * This class has the attributes, constructor and behaviors for the Restaurant
+ * Management.
+ * 
+ * @author Vichaphol Thamsuthikul
+ */
 public class Food {
-	private String nameF;
-	private double priceF;
+	private String menuItems;
+	private double unitPrice;;
 
 	public Food(String name, double price) {
-		this.nameF = name;
-		this.priceF = price;
+		this.menuItems = name;
+		this.unitPrice = price;
 	}
 
-	public String getNameF() {
-		return nameF;
+	public String getName() {
+		return menuItems;
 	}
 
-	public void setNameF(String nameF) {
-		this.nameF = nameF;
+	public void setName(String nameFood) {
+		this.menuItems = nameFood;
 	}
 
-	public double getPriceF() {
-		return priceF;
+	public double getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPriceF(double priceF) {
-		this.priceF = priceF;
+	public void setPrice(double priceFood) {
+		this.unitPrice = priceFood;
 	}
-	
+
 }
