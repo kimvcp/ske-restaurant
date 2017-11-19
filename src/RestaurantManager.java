@@ -1,6 +1,8 @@
 import java.awt.MenuItem;
 import java.io.File;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,11 +18,14 @@ import java.util.Scanner;
 public class RestaurantManager {
 	private String[] menuItems;
 	private double[] Prices;
+	
 
 	public List<Food> foodArrayList = new ArrayList<Food>();
+	static LocalDate date = LocalDate.now();
+	static LocalTime time = LocalTime.now();
 
 	public void recordOrder(int orderNumber, int[] order, double total) {
-
+		 
 	}
 
 	public String[] getMenuItems() {

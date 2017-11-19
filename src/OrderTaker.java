@@ -1,6 +1,9 @@
 import java.awt.Menu;
 import java.util.Scanner;
 
+import javax.print.attribute.standard.Sides;
+import javax.security.auth.x500.X500Principal;
+
 /**
  * This is the main class for taking orders. Order can be added and edited or
  * canceled. When done, it prints a receipt including all the added orders.
@@ -40,7 +43,7 @@ public class OrderTaker {
 		System.out.println("| ___  _ __ ___ ___ ___ ___ ___ ___ _  _ ___ ___ ___   ___ | ");
 		System.out.println("| |__  |/_  |__ |_| |__ |__  |  |_| |  | |_| |_| | | |  |  | ");
 		System.out.println("|  __| |  | |__ |\\_ |__  __| |  | | |__| |\\_ | | | |_|  |  |");
-		System.out.println("|_______Ã ___________________________________________________| ");
+		System.out.println("|_______à___________________________________________________| ");
 		System.out.println();
 		System.out.printf("  %s%42s\n", "Menu", "Price");
 		for (int i = 0; i < menuItems.length; i++) {
@@ -53,12 +56,22 @@ public class OrderTaker {
 		System.out.println(" [c] Review order and Checkout");
 	}
 
-	static int totalPrice() {
-		int sumPrice = 0;
+	static double totalPrice() {
+		double sumPrice = 0;
 		for (int i = 0; i < menuItems.length; i++) {
 			sumPrice += order[i] * prices[i];
 		}
 		return sumPrice;
+	}
+	static double vat() {
+		int sumPrice = 0;
+		double vat;
+		for (int i = 0; i < menuItems.length; i++) {
+			sumPrice += order[i] * prices[i];
+		}
+		vat = sumPrice*0.07;
+		
+		return vat;
 	}
 
 	public static void printTotalMenu() {
@@ -110,7 +123,7 @@ public class OrderTaker {
 		int cancelnum = getIntReply("The number you want to cancel: ");
 		order[cancelnum - 1] = 0;
 	}
-
+	
 	public static void receipt() {
 		System.out.println();
 		System.out.println(" ______________ SKE RESTAUTANT ______________");
@@ -130,7 +143,9 @@ public class OrderTaker {
 			}
 		}
 		System.out.println(" --------------------------------------------");
-		System.out.printf(" %8s%33d\n", "Total Price", totalPrice());
+		System.out.printf(" %8s%33.2f\n","Total Price", totalPrice());
+		System.out.printf(" %s%38.2f\n","VAT 7%",totalPrice()*0.07);
+		System.out.printf(" %s%28.2f\n","Total Net Price.",totalPrice()+(totalPrice()*0.07));
 		System.out.println(" ____________________________________________");
 	}
 
