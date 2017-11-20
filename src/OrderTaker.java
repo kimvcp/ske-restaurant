@@ -1,8 +1,7 @@
 import java.awt.Menu;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Scanner;
-
-import javax.print.attribute.standard.Sides;
-import javax.security.auth.x500.X500Principal;
 
 /**
  * This is the main class for taking orders. Order can be added and edited or
@@ -63,14 +62,15 @@ public class OrderTaker {
 		}
 		return sumPrice;
 	}
+
 	static double vat() {
 		int sumPrice = 0;
 		double vat;
 		for (int i = 0; i < menuItems.length; i++) {
 			sumPrice += order[i] * prices[i];
 		}
-		vat = sumPrice*0.07;
-		
+		vat = sumPrice * 0.07;
+
 		return vat;
 	}
 
@@ -123,7 +123,7 @@ public class OrderTaker {
 		int cancelnum = getIntReply("The number you want to cancel: ");
 		order[cancelnum - 1] = 0;
 	}
-	
+
 	public static void receipt() {
 		System.out.println();
 		System.out.println(" ______________ SKE RESTAUTANT ______________");
@@ -143,9 +143,9 @@ public class OrderTaker {
 			}
 		}
 		System.out.println(" --------------------------------------------");
-		System.out.printf(" %8s%33.2f\n","Total Price", totalPrice());
-		System.out.printf(" %s%38.2f\n","VAT 7%",totalPrice()*0.07);
-		System.out.printf(" %s%28.2f\n","Total Net Price.",totalPrice()+(totalPrice()*0.07));
+		System.out.printf(" %8s%33.2f\n", "Total Price", totalPrice());
+		System.out.printf(" %s%38.2f\n", "VAT 7%", totalPrice() * 0.07);
+		System.out.printf(" %s%29.2f\n", "Total Net Price", totalPrice() + (totalPrice() * 0.07));
 		System.out.println(" ____________________________________________");
 	}
 

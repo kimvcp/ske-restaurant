@@ -1,5 +1,5 @@
-Pizza;250
+Pizza;350
 Noodle;100
-Salad;40
+Salad;80
 Burger;200
 Mushroom;50
