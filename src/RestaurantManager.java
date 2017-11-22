@@ -2,6 +2,7 @@ import java.awt.MenuItem;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
@@ -34,35 +35,62 @@ public class RestaurantManager {
 		return Prices;
 	}
 
-	@SuppressWarnings("resource")
-	public void recordOrder(int ordernumber, int[] order, double total) throws FileNotFoundException {
-		OutputStream outputStream = null;
-		File root = new File("data");
-		root.mkdir(); 
+	public int getLastOrder() {
+		File root = new File("src/data");
 		File file = new File(root, "SalesLog.txt");
+		int ordernumber = 1;
+		try {
+			Scanner scanner = new Scanner(file);
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				if (line.startsWith(" Order")) {
+					ordernumber = Integer.parseInt(line.substring(15, 16).trim())+1;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return ordernumber;
+	}
+
+	@SuppressWarnings("resource")
+	public void recordOrder(int[] order, double total) throws FileNotFoundException {
+		OutputStream outputStream = null;
+		File root = new File("src/data");
+		root.mkdir();
+		File file = new File(root, "SalesLog.txt");
+		Scanner scanner = new Scanner(file);
+
 		try {
 			outputStream = new FileOutputStream(file, true);
-
 		} catch (Exception e) {
 			System.out.println("Could not access file " + root);
 		}
-		System.out.println(" ______________ SKE RESTAUTANT ______________");
-		System.out.println();
-		System.out.printf(" %s%31s%tT\n", "Time:", "", System.currentTimeMillis());
-		System.out.printf(" Order number [%d]", ordernumber);
-		System.out.println(" --------------------------------------------");
-		System.out.printf(" %8s%31s%s\n", "Menu", "", "Price");
-		System.out.println(" --------------------------------------------");
+		String temp = "";
+		temp = temp.concat(" ______________ SKE RESTAUTANT ______________\n\n");
+		temp = temp.concat(String.format(" %s%31s%tT\n", "Time:", "", System.currentTimeMillis()));
+		temp = temp.concat(String.format(" Order number [%d]\n", getLastOrder()));
+		temp = temp.concat(" --------------------------------------------\n");
+		temp = temp.concat(String.format(" %8s%31s%s\n", "Menu", "", "Price"));
+		temp = temp.concat(" --------------------------------------------\n");
 		for (int i = 0; i < menuItems.length; i++) {
 			if (order[i] > 0) {
-				System.out.printf(" %d%-3s%-28s%12.2f%-5s\n", order[i], "", menuItems[i], order[i] * Prices[i], "");
+				temp = temp.concat(String.format(" %d%-3s%-28s%12.2f%-5s\n", order[i], "", menuItems[i],
+						order[i] * Prices[i], ""));
 			}
 		}
-		System.out.println(" --------------------------------------------");
-		System.out.printf(" %8s%33.2f\n", "Total Price", total);
-		System.out.printf(" %s%38.2f\n", "VAT 7%", total * 0.07);
-		System.out.printf(" %s%28.2f\n", "Total Net Price.", total + (total * 0.07));
-		System.out.println(" ____________________________________________");
+		temp = temp.concat(" --------------------------------------------\n");
+		temp = temp.concat(String.format(" %8s%33.2f\n", "Total Price", total));
+		temp = temp.concat(String.format(" %s%38.2f\n", "VAT 7%", total * 0.07));
+		temp = temp.concat(String.format(" %s%28.2f\n", "Total Net Price.", total + (total * 0.07)));
+		temp = temp.concat(" ____________________________________________\n\n");
+
+		try {
+			outputStream.write(temp.getBytes());
+		} catch (IOException e) {
+			System.out.println("Could not access file " + root);
+		}
 
 	}
 

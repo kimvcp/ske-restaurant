@@ -1,4 +1,5 @@
 import java.awt.Menu;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
@@ -42,7 +43,7 @@ public class OrderTaker {
 		System.out.println("| ___  _ __ ___ ___ ___ ___ ___ ___ _  _ ___ ___ ___   ___ | ");
 		System.out.println("| |__  |/_  |__ |_| |__ |__  |  |_| |  | |_| |_| | | |  |  | ");
 		System.out.println("|  __| |  | |__ |\\_ |__  __| |  | | |__| |\\_ | | | |_|  |  |");
-		System.out.println("|_______à___________________________________________________| ");
+		System.out.println("|__________________________________________________________| ");
 		System.out.println();
 		System.out.printf("  %s%42s\n", "Menu", "Price");
 		for (int i = 0; i < menuItems.length; i++) {
@@ -100,6 +101,11 @@ public class OrderTaker {
 				cancelMenu();
 			else if (choice.equals("c")) {
 				receipt();
+				try {
+					manage.recordOrder(order, totalPrice());
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 				break;
 			}
 			if (choice.charAt(0) > 48 && choice.charAt(0) < 57) {
